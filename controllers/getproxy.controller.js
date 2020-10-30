@@ -1,6 +1,9 @@
+/*
 const db = require("../db");
 const Network = db.networks;
 const { IPSet } = require('futoin-ipset');
+*/
+const findProxy = require('../util/ipset')
 
 exports.find = async (req, res) => {
     
@@ -10,18 +13,12 @@ exports.find = async (req, res) => {
             res.status(400).send({ message: "Querystring can not be empty!" });
             return;
           }
-
-        const ipset = new IPSet();
         let queryIP = req.query.ip;
 
-        const data = await Network.find();
-      
-        data.forEach(element => {
-            let ip = ipset.convertAddress(`${element.network}`);
-            ipset.add(ip, element.proxystring);
-        });
+        const proxy = await findProxy(queryIP);
 
-        res.send(ipset.match(ipset.convertAddress(`${queryIP}`)))
+        res.send(proxy);
+
     } catch (err) {
         res.status(500).send({
             message:
