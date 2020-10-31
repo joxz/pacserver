@@ -1,4 +1,4 @@
-const dbConfig = require("../config/properties");
+const dbConfig = require("../config/dbproperties");
 
 const mongoose = require("mongoose");
 mongoose.set('debug', true);

@@ -15,7 +15,8 @@
 		"dbaeumer.vscode-eslint",
 		"mongodb.mongodb-vscode",
 		"esbenp.prettier-vscode",
-		"coenraads.bracket-pair-colorizer"
+		"coenraads.bracket-pair-colorizer",
+		"eamodio.gitlens"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
