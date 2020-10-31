@@ -15,5 +15,4 @@ module.exports = async function findProxyForIP(ip) {
     });
 
     return ipset.match(ipset.convertAddress(`${ip}`))
-
 }

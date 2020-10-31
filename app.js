@@ -24,6 +24,9 @@ db.mongoose
     process.exit();
   });
 
+/* disable X-Powered-By */
+app.disable('x-powered-by');
+
 /* middleware */
 app.use(logger('dev'));
 app.use(express.json());

@@ -1,9 +1,4 @@
-/*
-const db = require("../db");
-const Network = db.networks;
-const { IPSet } = require('futoin-ipset');
-*/
-const findProxy = require('../util/ipset')
+const findProxy = require('../util/ipset');
 
 exports.find = async (req, res) => {
     
