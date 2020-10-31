@@ -16,7 +16,8 @@
 		"mongodb.mongodb-vscode",
 		"esbenp.prettier-vscode",
 		"coenraads.bracket-pair-colorizer",
-		"eamodio.gitlens"
+		"eamodio.gitlens",
+		"oderwat.indent-rainbow"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
@@ -26,8 +27,8 @@
 	"postCreateCommand": [
 		"npm install",
 		"npm start:dev"
-	]
+	],
 
 	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "node"
+	"remoteUser": "node"
 }

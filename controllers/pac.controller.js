@@ -16,7 +16,7 @@ module.exports = async function (req, res) {
         /* fill template */
         const pacString = template(exceptionsObj, proxy);
 
-        /* check PAC with pac-resolver */
+        /* validate PAC with pac-resolver, catch any errors */
         const findProxyForURL = pac(pacString);
         findProxyForURL(defaults.PAC_TEST_URL).catch(err => console.log(err));
 
