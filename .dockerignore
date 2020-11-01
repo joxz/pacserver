@@ -1,0 +1,10 @@
+.git
+node_modules
+npm-debug.log
+.gitignore
+README.md
+LICENSE
+.devcontainer
+.eslintignore
+.eslintrc.js
+prettierrc.js

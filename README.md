@@ -2,7 +2,7 @@
 
 Built using node.js, express and MongoDB
 
-Developed based on the need to provide PAC files with different proxy assignments per client IP address.
+Developed based on the need to provide dynamic generated PAC files with different proxy assignments per client IP address.
 
 Inspired by https://github.com/DrRenz/PACtory
 
@@ -23,12 +23,23 @@ Inspired by https://github.com/DrRenz/PACtory
 - edit `config/dbproperties.js` and `config/defaults.js`
 - `npm install` the dependencies
 
+Docker:
+
+- git clone the repo
+- `docker build -t pacserver .`
+- `docker run --rm pacserver:latest`
+
+Docker Compose (App + MongoDB):
+
+- git clone repo
+- `docker-compose build`
+- `docker-compose up -d`
+
 ## Run
 
 - nodemon run: `npm run start:dev`
 - prod run: `npm start`
 
 ## TODO
-- Dockerfile, docker-compose
 - Admin frontend
 - API documentation
