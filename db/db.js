@@ -1,11 +1,12 @@
-const dbConfig = require("../config/dbproperties");
-
 const mongoose = require("mongoose");
-mongoose.set('debug', true);
+
+if (process.env.DEBUG) {
+    mongoose.set('debug', true);
+}
 
 const db = {};
 db.mongoose = mongoose;
-db.url = dbConfig.url;
+db.url = process.env.DBURL;
 db.networks = require("./networkschema.js")(mongoose);
 db.exceptions = require("./exceptionschema.js")(mongoose);
 

@@ -10,7 +10,7 @@ const getProxyRouter = require('./routes/getproxy');
 const app = express();
 
 /* connect to db */
-const db = require("./db/index.js");
+const db = require("./db/db");
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -28,7 +28,12 @@ db.mongoose
 app.disable('x-powered-by');
 
 /* middleware */
-app.use(logger('dev'));
+if (process.env.DEBUG) {
+  app.use(logger('dev'));
+} else {
+  app.use(logger(':date[iso] :remote-addr :req[x-forwarded-for] ":method :url HTTP/:http-version" :status :res[content-length] :response-time[2] ms ":user-agent"'));
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

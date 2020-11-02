@@ -4,16 +4,20 @@
  * Module dependencies.
  */
 
+const env = require('dotenv').config();
 const debug = require('debug')('pacserver:server');
 const http = require('http');
 const app = require('../app');
-const defaults = require('../config/defaults');
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || defaults.PORT || '3000');
+if (env.error) {
+  throw env.error
+}
+
+const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
