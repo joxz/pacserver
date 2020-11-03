@@ -1,8 +1,15 @@
 module.exports = mongoose => {
   const schema = mongoose.Schema(
     {
-      network: String,
-      proxystring: String
+      network: {
+        type: String,
+        required: true,
+        unique: true
+      },
+      proxystring: {
+        type: String, 
+        required: true
+      }
     },
     { timestamps: true }
   );
