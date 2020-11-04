@@ -11,8 +11,9 @@ exports.find = async (req, res) => {
 
         /* send message if no valid proxy is found */
         const proxy = await findProxy(queryIP) || `No valid proxy found for ${queryIP}`;
-
-        res.send(proxy);
+        
+        res.header('Content-Type', 'application/json');
+        res.send(JSON.stringify(proxy));
 
     } catch (err) {
         res.status(500).send({

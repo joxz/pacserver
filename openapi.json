@@ -1,0 +1,675 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "pacserver API",
+    "description": "API to manage networks and proxy exceptions for dynamically generated PAC files",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "{protocol}://{serverip}/api/v1",
+      "variables": {
+        "protocol": {
+          "default": "http",
+          "enum": [
+            "http",
+            "https"
+          ]
+        },
+        "serverip": {
+          "default": "localhost:3000"
+        }
+      }
+    }
+  ],
+  "tags": [
+    {
+      "name": "networks",
+      "description": "networks"
+    },
+    {
+      "name": "exceptions",
+      "description": "exceptions"
+    },
+    {
+      "name": "others",
+      "description": "other functionality"
+    }
+  ],
+  "paths": {
+    "/networks": {
+      "get": {
+        "summary": "Returns a list of networks",
+        "tags": [
+          "networks"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/networksresp"
+                },
+                "examples": {
+                  "ipv4": {
+                    "value": {
+                      "network": "10.0.0.0/8",
+                      "proxystring": "PROXY internal.proxy:8080",
+                      "createdAt": "2020-10-30T09:20:25.857Z",
+                      "updatedAt": "2020-10-30T09:23:12.966Z",
+                      "id": "5f9bdad9175f0305cf9ee634"
+                    }
+                  },
+                  "ipv6": {
+                    "value": {
+                      "network": "2001:db8::1:0:0:1/64/64",
+                      "proxystring": "PROXY internal.proxy:8080",
+                      "createdAt": "2020-10-30T09:20:25.857Z",
+                      "updatedAt": "2020-10-30T09:23:12.966Z",
+                      "id": "5fa2d0a12624b209158addb8"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error while retrieving networks from DB"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new network with proxy string",
+        "tags": [
+          "networks"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/networks"
+              },
+              "examples": {
+                "ipv4": {
+                  "value": {
+                    "network": "10.0.0.0/8",
+                    "proxystring": "PROXY internal.proxy:8080"
+                  }
+                },
+                "ipv6": {
+                  "value": {
+                    "network": "2001:db8::1:0:0:1/64",
+                    "proxystring": "PROXY internal2.proxy:8080"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/networksresp"
+                },
+                "examples": {
+                  "ipv4": {
+                    "value": {
+                      "network": "10.0.0.0/8",
+                      "proxystring": "PROXY internal.proxy:8080",
+                      "createdAt": "2020-10-30T09:20:25.857Z",
+                      "updatedAt": "2020-10-30T09:23:12.966Z",
+                      "id": "5f9bdad9175f0305cf9ee634"
+                    }
+                  },
+                  "ipv6": {
+                    "value": {
+                      "network": "2001:db8::1:0:0:1/64/64",
+                      "proxystring": "PROXY internal.proxy:8080",
+                      "createdAt": "2020-10-30T09:20:25.857Z",
+                      "updatedAt": "2020-10-30T09:23:12.966Z",
+                      "id": "5fa2d0a12624b209158addb8"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Content cannot be empty"
+          },
+          "500": {
+            "description": "Error while creating network in DB"
+          }
+        }
+      }
+    },
+    "/networks/{id}": {
+      "get": {
+        "summary": "Get networks with {id}",
+        "tags": [
+          "networks"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/networksresp"
+                },
+                "examples": {
+                  "ipv4": {
+                    "value": {
+                      "network": "10.0.0.0/8",
+                      "proxystring": "PROXY internal.proxy:8080",
+                      "createdAt": "2020-10-30T09:20:25.857Z",
+                      "updatedAt": "2020-10-30T09:23:12.966Z",
+                      "id": "5f9bdad9175f0305cf9ee634"
+                    }
+                  },
+                  "ipv6": {
+                    "value": {
+                      "network": "2001:db8::1:0:0:1/64/64",
+                      "proxystring": "PROXY internal.proxy:8080",
+                      "createdAt": "2020-10-30T09:20:25.857Z",
+                      "updatedAt": "2020-10-30T09:23:12.966Z",
+                      "id": "5fa2d0a12624b209158addb8"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Networks with {id} not found in DB"
+          },
+          "500": {
+            "description": "Error while retrieving networks {id} from DB"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update networks with {id}",
+        "tags": [
+          "networks"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/networks"
+              },
+              "examples": {
+                "ipv4": {
+                  "value": {
+                    "network": "10.0.0.0/8",
+                    "proxystring": "PROXY internal.proxy:8080"
+                  }
+                },
+                "ipv6": {
+                  "value": {
+                    "domain": "2001:db8::1:0:0:1/64",
+                    "proxystring": "DIRECT"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": "Network was updated successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Data to update cannot be empty"
+          },
+          "404": {
+            "description": "Network with {id} not found in DB"
+          },
+          "500": {
+            "description": "Error while retrieving network {id} from DB"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete network with {id}",
+        "tags": [
+          "networks"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": "Network was deleted successfully"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Networks with {id} not found in DB"
+          },
+          "500": {
+            "description": "Error while network {id} from DB"
+          }
+        }
+      }
+    },
+    "/exceptions": {
+      "get": {
+        "summary": "Returns a list of all exceptions",
+        "tags": [
+          "exceptions"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/exceptionsresp"
+                },
+                "example": {
+                  "domain": "internal.corp.example.com",
+                  "proxystring": "DIRECT",
+                  "createdAt": "2020-10-30T09:20:25.857Z",
+                  "updatedAt": "2020-10-30T09:23:12.966Z",
+                  "id": "5f9bdad9175f0305cf9ee634"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error while retrieving exceptions from DB"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create new exceptions with proxy string",
+        "tags": [
+          "exceptions"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/exceptions"
+              },
+              "examples": {
+                "proxy": {
+                  "value": {
+                    "domain": "corp.example.com",
+                    "proxystring": "PROXY internal.proxy:8080"
+                  }
+                },
+                "direct": {
+                  "value": {
+                    "domain": "internal.corp.example.com",
+                    "proxystring": "DIRECT"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/exceptionsresp"
+                },
+                "example": {
+                  "domain": "internal.corp.example.com",
+                  "proxystring": "DIRECT",
+                  "createdAt": "2020-10-30T09:20:25.857Z",
+                  "updatedAt": "2020-10-30T09:23:12.966Z",
+                  "id": "5f9bdad9175f0305cf9ee634"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Content cannot be empty"
+          },
+          "500": {
+            "description": "Error while creating network in DB"
+          }
+        }
+      }
+    },
+    "/exceptions/{id}": {
+      "get": {
+        "summary": "Get exceptions with {id}",
+        "tags": [
+          "exceptions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/exceptionsresp"
+                },
+                "example": {
+                  "domain": "internal.corp.example.com",
+                  "proxystring": "DIRECT",
+                  "createdAt": "2020-10-30T09:20:25.857Z",
+                  "updatedAt": "2020-10-30T09:23:12.966Z",
+                  "id": "5f9bdad9175f0305cf9ee634"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Exceptions with {id} not found in DB"
+          },
+          "500": {
+            "description": "Error while retrieving exceptions {id} from DB"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update exceptions with {id}",
+        "tags": [
+          "exceptions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/exceptions"
+              },
+              "examples": {
+                "proxy": {
+                  "value": {
+                    "domain": "corp.example.com",
+                    "proxystring": "PROXY internal.proxy:8080"
+                  }
+                },
+                "direct": {
+                  "value": {
+                    "domain": "internal.corp.example.com",
+                    "proxystring": "DIRECT"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": "Exception was updated successfully"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Data to update cannot be empty"
+          },
+          "404": {
+            "description": "Exceptions with {id} not found in DB"
+          },
+          "500": {
+            "description": "Error while retrieving exceptions {id} from DB"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete exceptions with {id}",
+        "tags": [
+          "exceptions"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": "Exception was deleted successfully"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Exceptions with {id} not found in DB"
+          },
+          "500": {
+            "description": "Error while exceptions network {id} from DB"
+          }
+        }
+      }
+    },
+    "/getproxyforip": {
+      "get": {
+        "summary": "Find proxy for IP address",
+        "tags": [
+          "others"
+        ],
+        "parameters": [
+          {
+            "name": "ip",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "ipv4": {
+                "value": "10.1.2.3"
+              },
+              "ipv6": {
+                "value": "2001:db8::1:0:0:1"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error while retrieving proxy for IP"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "networks": {
+        "type": "object",
+        "properties": {
+          "network": {
+            "type": "string",
+            "format": "cidr"
+          },
+          "proxystring": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "network",
+          "proxystring"
+        ]
+      },
+      "networksresp": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "network": {
+              "type": "string",
+              "format": "cidr"
+            },
+            "proxystring": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "id": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "exceptions": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string"
+          },
+          "proxystring": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "domain",
+          "proxystring"
+        ]
+      },
+      "exceptionsresp": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string"
+            },
+            "proxystring": {
+              "type": "string"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "id": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

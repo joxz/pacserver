@@ -6,6 +6,7 @@ const networksRouter = require('./routes/networks');
 const exceptionsRouter = require('./routes/exceptions');
 const pacRouter = require('./routes/pac');
 const getProxyRouter = require('./routes/getproxy');
+const swaggerRouter = require('./routes/swagger');
 
 const app = express();
 
@@ -40,7 +41,8 @@ app.use(express.urlencoded({ extended: false }));
 /* routes */
 app.use('/api/v1/networks', networksRouter);
 app.use('/api/v1/exceptions', exceptionsRouter);
+app.use('/api/v1/getproxyforip', getProxyRouter);
 app.use('/pac/wpad.pac', pacRouter);
-app.use('/api/v1/getproxyforip', getProxyRouter)
+app.use('/api-docs', swaggerRouter);
 
 module.exports = app;

@@ -40,6 +40,10 @@ Docker Compose (App + MongoDB):
 - nodemon run: `npm run start:dev`
 - prod run: `npm start`
 
+## API Documentation
+
+- SwaggerUI is available at `{{protocol}}://{{serverip:port}}/api-docs/` (default: `localhost:3000`)
+- Edit protocol, server hostname/IP and port in SwaggerUI
+
 ## TODO
 - Admin frontend
-- API documentation
