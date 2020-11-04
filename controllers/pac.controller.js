@@ -20,7 +20,7 @@ module.exports = async function (req, res) {
         findProxyForURL(process.env.PAC_TEST_URL).catch(err => console.log(err));
 
         /* send response */
-        res.header('content-Type', 'application/x-ns-proxy-autoconfig');
+        res.header('Content-Type', 'application/x-ns-proxy-autoconfig');
         res.send(pacString);
 
     } catch (err) {
